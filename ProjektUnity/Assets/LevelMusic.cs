@@ -7,7 +7,7 @@ public class LevelMusic : MonoBehaviour
 {
     [SerializeField] private AudioClip music;
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private float baseVolume = 0.25f;
+    private float baseVolumee = 0.15f;
     [SerializeField] private List<Soundbar> soundBars = new List<Soundbar>();
 
     private float CalculateCurrentVolume()
@@ -17,8 +17,8 @@ public class LevelMusic : MonoBehaviour
             return 1f;
         }
 
-        float partVolume = (1f - baseVolume) / soundBars.Count;
-        float result = baseVolume;
+        float partVolume = (1f - baseVolumee) / soundBars.Count;
+        float result = baseVolumee;
         foreach (var item in soundBars)
         {
             if (item.isPlaying)
@@ -32,11 +32,22 @@ public class LevelMusic : MonoBehaviour
 
     private void Start()
     {
-        if(soundBars.Count == 0)
+        if (soundBars.Count == 0)
         {
             soundBars = FindObjectsOfType<Soundbar>().ToList();
         }
-        audioSource.clip = music;
+
+        LevelInfo li = DataBase.DB.GetCurrentLevel();
+        if (li != null)
+        {
+            audioSource.clip = li.music;
+        }
+        else
+        {
+            audioSource.clip = music;
+        }
+
+        
         audioSource.Play();
     }
 

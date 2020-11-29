@@ -6,28 +6,52 @@ using System;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private LevelHUD levelHud;
     [SerializeField] private PlayerControler player;
-
     private List<IObjective> objectives = new List<IObjective>();
-   
-    public bool debug_showIsLevelCompleted;
     private float normalsiedLevelProgres;
-
-
     private Coroutine levelCompletedCor;
-
+   
+    
 
     private void Start()
     {
         FillObjectives();
         PrepareLevel();
+        DisplaySomeBiedaIntro();
     }
 
 
     private void Update()
     {
-        debug_showIsLevelCompleted = IsLevelCompleted();
         CalculateLevelProgress();
+
+        if (player.shootsThisLevel >= 4)
+        {
+            LevelFailed();
+        }
+
+        if (IsLevelCompleted())
+        {
+            LevelCompleted();
+        }
+    }
+
+
+    private void DisplaySomeBiedaIntro()
+    {
+        LevelInfo level = DataBase.DB.GetCurrentLevel();
+
+        if (level.levelIntro.skip == true)
+        {
+
+        }
+        else
+        {
+            player.BlockPlayerInput();
+            levelHud.DisplayLevelIntro(level, () => player.UnblockPlayerInput());
+        }
+      
     }
 
 
@@ -45,18 +69,35 @@ public class LevelManager : MonoBehaviour
     }
 
 
+    public int GetShootsCount()
+    {
+        return player.shootsThisLevel;
+    }
+
+
     private void LevelCompleted()
     {
         if(levelCompletedCor == null)
         {
-            levelCompletedCor = StartCoroutine(EndLevelProcces(3f));
+            levelCompletedCor = StartCoroutine(EndLevelProcces(3f, true));
         }
 
         player.BlockPlayerInput();
     }
 
 
-    private IEnumerator EndLevelProcces(float delayTime)
+    private void LevelFailed()
+    {
+        if (levelCompletedCor == null)
+        {
+            levelCompletedCor = StartCoroutine(EndLevelProcces(3f, false));
+        }
+
+        player.BlockPlayerInput();
+    }
+
+
+    private IEnumerator EndLevelProcces(float delayTime, bool succes)
     {
         float timer = 0f;
 
@@ -64,11 +105,30 @@ public class LevelManager : MonoBehaviour
         while(timer < delayTime)
         {
             timer += Time.deltaTime;
-
-
             yield return null;
         }
 
+        if(succes)
+        {
+            string title = DataBase.DB.GetShout_Succes(DataBase.ShoutType.WinTitle);
+            string content = DataBase.DB.GetShout_Succes(DataBase.ShoutType.WinContent);
+
+            LevelInfo currentLEvel = DataBase.DB.GetCurrentLevel();
+            if(currentLEvel != null)
+            {
+                LevelRecord lr = new LevelRecord(true, GetShootsCount(), System.DateTime.UtcNow.ToShortDateString());
+                DataBase.DB.SaveLevelsData(currentLEvel, lr);
+            }
+
+            levelHud.simplePrompter.DisplayPrompter(title, content, () => DataBase.DB.LoadNextLevel(), "Next level", () => DataBase.DB.LoadMainMenu(), "Back to menu");
+        }
+        else
+        {
+            string title = DataBase.DB.GetShout_Succes(DataBase.ShoutType.FailTitle);
+            string content = DataBase.DB.GetShout_Succes(DataBase.ShoutType.FailContent);
+
+            levelHud.simplePrompter.DisplayPrompter(title, content, () => DataBase.DB.ReloadLevel(), "Try again", () => DataBase.DB.LoadMainMenu(), "Back to menu");
+        }
 
         yield return null;
     }
@@ -129,8 +189,6 @@ public class LevelManager : MonoBehaviour
     {
         return objectives.TrueForAll(x => x.IsCompleted());
     }
-
-
 }
 
 

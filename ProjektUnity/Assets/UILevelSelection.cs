@@ -34,7 +34,7 @@ public class UILevelSelection : MonoBehaviour
 
     private void LoadLevel(LevelInfo level)
     {
-        DataBase.DB?.LoadLevelScene(level.scene);
+        DataBase.DB?.LoadLevelScene(level);
     }
 
 }

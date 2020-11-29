@@ -2205,6 +2205,13 @@ MonoBehaviour:
     scene:
       m_SceneAsset: {fileID: 102900000, guid: 3e497e9e4deb2b2498829e7059f6f592, type: 3}
       m_SceneName: Level_0Test
+    levelIntro:
+      skip: 0
+      title: Hello
+      content: Jestem janusz
+      songTitle: song title
+      okButtonText: 'go go '
+      image: {fileID: 21300000, guid: 59770b65a62da0e4091b08afccf89388, type: 3}
   - name: L 2
     levelID:
       levelID: 1
@@ -2216,6 +2223,13 @@ MonoBehaviour:
     scene:
       m_SceneAsset: {fileID: 102900000, guid: 3e497e9e4deb2b2498829e7059f6f592, type: 3}
       m_SceneName: Level_0Test
+    levelIntro:
+      skip: 0
+      title: da
+      content: dw
+      songTitle: dwdw
+      okButtonText: dw
+      image: {fileID: 0}
   mainScene:
     m_SceneAsset: {fileID: 102900000, guid: 19eaeab7f3567634e8151257be027459, type: 3}
     m_SceneName: MainScene
@@ -2227,6 +2241,26 @@ MonoBehaviour:
     m_SceneName: Level_0Test
   accentMaterial_On: {fileID: 2100000, guid: 2987f6452a8107c4e9d86c4e6983d9ff, type: 2}
   accentMaterial_Off: {fileID: 2100000, guid: 10bc4a14361613a4eace30dd9b60e602, type: 2}
+  winTitle:
+  - Victory
+  - Amaizing
+  - OMG!
+  - Unbeliveble
+  winContent:
+  - 2000 EXP
+  - Huck Norris style
+  - Ultra kill
+  - 'Ranked : Black dragon'
+  failTitle:
+  - Failed
+  - Really?
+  - ....
+  failContent:
+  - Well....at least you tried
+  - You died
+  - Pikatchu is sad
+  - Maybe try ultra casual games instead ?
+  - You did it on purpose right?
 --- !u!4 &1454982292
 Transform:
   m_ObjectHideFlags: 0

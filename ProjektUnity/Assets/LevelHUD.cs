@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -19,11 +20,16 @@ public class LevelHUD : MonoBehaviour
     [SerializeField] private Button subpanel_options;
     [SerializeField] private Button subpanel_restart;
 
-    [SerializeField] private UISimplePrompter simplePrompter;
+    [SerializeField] public UISimplePrompter simplePrompter;
 
     [SerializeField] private Image levelProgresBackground;
     [SerializeField] private Image levelProgresFill;
 
+    [SerializeField] private Image star1;
+    [SerializeField] private Image star2;
+    [SerializeField] private Image star3;
+
+    [SerializeField] private IntroPrompter introPrompter;
 
 
     private LevelManager levelManager;
@@ -90,6 +96,12 @@ public class LevelHUD : MonoBehaviour
     }
 
 
+    public void DisplayLevelIntro(LevelInfo level, Action onClose)
+    {
+        introPrompter.DisplayIntro(level.levelIntro, onClose);
+    }
+
+
     private void GoToMainMenu()
     {
         DataBase.DB.LoadMainMenu();
@@ -123,6 +135,14 @@ public class LevelHUD : MonoBehaviour
         if (levelManager)
         {
             levelProgresFill.fillAmount = Mathf.MoveTowards(levelProgresFill.fillAmount, levelManager.GetLevelProgressionNormalized(), 3f * Time.deltaTime);
+
+
+            int shoots = levelManager.GetShootsCount();
+
+            star1.gameObject.SetActive(shoots <= 1);
+            star2.gameObject.SetActive(shoots <= 2);
+            star3.gameObject.SetActive(shoots <= 3);
+
         }
     }
 }

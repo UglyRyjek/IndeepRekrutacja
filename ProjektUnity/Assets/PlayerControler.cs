@@ -25,6 +25,7 @@ public class PlayerControler : MonoBehaviour
     private float dragTimer = 0f;
     private Vector3 nulledVector = new Vector3(0f, -10f, 0f);
 
+    public int shootsThisLevel = 0;
     public bool isWorking;
     private Coroutine shootCor = null;
 
@@ -66,12 +67,17 @@ public class PlayerControler : MonoBehaviour
         playerState = PlayerState.InputBlocked;
     }
 
+    public void UnblockPlayerInput()
+    {
+        playerState = PlayerState.None;
+    }
 
     private void Shoot()
     {
         List<TrajectoryPoint> shotTrajectory = new List<TrajectoryPoint>();
         trajectory.ForEach(x => shotTrajectory.Add(x));
 
+        shootsThisLevel++;
         if (shotTrajectory.Count >= 2)
         {
             if (shootCor == null)
