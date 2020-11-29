@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class InputByMouse : InputBase
 {
@@ -16,7 +18,12 @@ public class InputByMouse : InputBase
         Vector2 mousePoz = Input.mousePosition;
         Vector2 movement = mousePoz - deltaMouse;
 
-
+        bool isMouseOverUI = EventSystem.current.IsPointerOverGameObject();
+        if(isMouseOverUI)
+        {
+            deltaMouse = mousePoz;
+            return;
+        }
 
         if (Input.GetMouseButton(0))
         {
