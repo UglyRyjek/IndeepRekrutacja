@@ -19,7 +19,7 @@ public class UILevelSelection : MonoBehaviour
     private void LoadLevelList() // po szybkości przez instantiate
     {
         levelButtonPrefab.gameObject.SetActive(false);
-        foreach (LevelInfo li in DataBase.DB.levels)
+        foreach (LevelInfo li in DataBase.DB.GetLevelsData())
         {
             if(li != null && li.scene != null)
             {

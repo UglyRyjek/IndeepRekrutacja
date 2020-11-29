@@ -10,7 +10,8 @@ public class DataBase : MonoBehaviour
 
 
     [Header("Dane leveli")]
-    public List<LevelInfo> levels = new List<LevelInfo>();
+    public List<Level_Scriptable> levelsData = new List<Level_Scriptable>();
+    private List<LevelInfo> levels = new List<LevelInfo>();
     public SceneField mainScene;
     public SceneField controlScene;
     public SceneField loadedLevelScene;
@@ -44,13 +45,15 @@ public class DataBase : MonoBehaviour
         {
             DB = this;
             DontDestroyOnLoad(this.gameObject);
+
+
+            LoadLevelsData();
         }
         else
         {
             Destroy(this.gameObject);
         }
 
-        LoadLevelsData();
     }
 
     private string GetRandomElementFromListAndShuffle(List<string> list)
@@ -96,9 +99,21 @@ public class DataBase : MonoBehaviour
     }
 
 
+    public List<LevelInfo> GetLevelsData()
+    {
+        return levels;
+    }
+
 
     private void LoadLevelsData()
     {
+        levels.Clear();
+        foreach (Level_Scriptable ls in levelsData)
+        {
+            levels.Add(new LevelInfo(ls.levelInfo));
+        }
+
+
         foreach (LevelInfo level in levels)
         {
             string key = level.levelID.GetLevelID();
@@ -171,8 +186,13 @@ public class DataBase : MonoBehaviour
 
     public void LoadNextLevel()
     {
-
+        if(currentLevel != null)
+        {
+            LevelInfo li = levels[levels.IndexOf(currentLevel) + 1];
+            LoadLevelScene(li);
+        }
     }
+
 
     public void ReloadLevel()
     {
@@ -181,6 +201,20 @@ public class DataBase : MonoBehaviour
             LoadLevelScene(currentLevel);
         }
     }
+
+
+    public bool IsCurrentLevelLastOne()
+    {
+        if (currentLevel != null)
+        {
+            if (currentLevel == levels.Last())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public LevelInfo GetCurrentLevel()
     {
@@ -192,6 +226,18 @@ public class DataBase : MonoBehaviour
 [System.Serializable]
 public class LevelInfo
 {
+    public LevelInfo(LevelInfo copyFrom)
+    {
+        this.name = copyFrom.name;
+        this.levelID = copyFrom.levelID;
+        this.levelIcon = copyFrom.levelIcon;
+        this.scene = copyFrom.scene;
+        this.music = copyFrom.music;
+        this.levelIntro = copyFrom.levelIntro;
+
+        this.levelIntro = new LevelIntro();
+    }
+
     public string name;
     public LevelID levelID;
     public LevelRecord levelRecord;
@@ -206,7 +252,7 @@ public class LevelIntro
 {
     public bool skip;
     public string title;
-    public string content;
+    [TextArea] public string content;
     public string songTitle;
     public string okButtonText;
     public Sprite image;
@@ -227,6 +273,7 @@ public struct LevelID
 [System.Serializable]
 public class LevelRecord
 {
+
     public LevelRecord()
     {
 

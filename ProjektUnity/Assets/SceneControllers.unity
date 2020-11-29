@@ -552,7 +552,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &170294859
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2104,7 +2104,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &688928696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3747,7 +3747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be26be578378b6f48af22c8842590d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levels: []
+  levelsData: []
   mainScene:
     m_SceneAsset: {fileID: 102900000, guid: 19eaeab7f3567634e8151257be027459, type: 3}
     m_SceneName: MainScene
@@ -4341,7 +4341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1615826432
 RectTransform:
   m_ObjectHideFlags: 0

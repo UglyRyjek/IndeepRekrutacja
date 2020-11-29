@@ -41,16 +41,19 @@ public class LevelManager : MonoBehaviour
     private void DisplaySomeBiedaIntro()
     {
         LevelInfo level = DataBase.DB.GetCurrentLevel();
-
-        if (level.levelIntro.skip == true)
+        if(level != null)
         {
+            if (level.levelIntro.skip == true)
+            {
 
+            }
+            else
+            {
+                player.BlockPlayerInput();
+                levelHud.DisplayLevelIntro(level, () => player.UnblockPlayerInput());
+            }
         }
-        else
-        {
-            player.BlockPlayerInput();
-            levelHud.DisplayLevelIntro(level, () => player.UnblockPlayerInput());
-        }
+     
       
     }
 
@@ -120,7 +123,17 @@ public class LevelManager : MonoBehaviour
                 DataBase.DB.SaveLevelsData(currentLEvel, lr);
             }
 
-            levelHud.simplePrompter.DisplayPrompter(title, content, () => DataBase.DB.LoadNextLevel(), "Next level", () => DataBase.DB.LoadMainMenu(), "Back to menu");
+            
+            if(DataBase.DB.IsCurrentLevelLastOne() == false)
+            {
+                levelHud.simplePrompter.DisplayPrompter(title, content, () => DataBase.DB.LoadNextLevel(), "Next level", () => DataBase.DB.LoadMainMenu(), "Back to menu");
+            }
+            else
+            {
+                title = "Requiescat in pace";
+                content = $"Hope you liked it :) \n Best regards : Tomek \"UglyRyjek\" Lipinski";
+                levelHud.simplePrompter.DisplayPrompter(title, content, () => DataBase.DB.LoadMainMenu(), "Back to menu");
+            }
         }
         else
         {
