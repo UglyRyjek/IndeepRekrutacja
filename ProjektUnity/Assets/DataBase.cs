@@ -100,6 +100,12 @@ public class DataBase : MonoBehaviour
     }
 
 
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene(mainScene.SceneName, LoadSceneMode.Single);
+    }
+
+
     public void ReloadLevel()
     {
         if(loadedLevelScene != null)

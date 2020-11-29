@@ -11,6 +11,8 @@ public class LevelHUD : MonoBehaviour
     [SerializeField] private Transform upperSubpane;
     [SerializeField] private Button showUpperSupbanel;
     [SerializeField] private Button hideUpperSubpanel;
+    [SerializeField] private Button exitToMenu;
+
     [SerializeField] private Button subpanel_volume_mute;
     [SerializeField] private Button subpanel_volume_unmute;
 
@@ -30,8 +32,8 @@ public class LevelHUD : MonoBehaviour
     private void Start()
     {
         levelManager = FindObjectOfType<LevelManager>();
-        levelProgresBackground.gameObject.SetActive(levelManager!=null);
-        levelProgresFill.gameObject.SetActive(levelManager!=null);
+        levelProgresBackground.gameObject.SetActive(levelManager != null);
+        levelProgresFill.gameObject.SetActive(levelManager != null);
         levelProgresFill.fillAmount = 0f;
 
         showUpperSupbanel.onClick.AddListener(ShowUpperPanel);
@@ -40,7 +42,7 @@ public class LevelHUD : MonoBehaviour
         subpanel_volume_unmute.onClick.AddListener(OnSupbanelVolume);
         subpanel_options.onClick.AddListener(OnSubpanelOptions);
         subpanel_restart.onClick.AddListener(OnSubpanelRestart);
-
+        exitToMenu.onClick.AddListener(OnExitToMenu);
         HideUpperPanel();
     }
 
@@ -73,12 +75,30 @@ public class LevelHUD : MonoBehaviour
     }
 
 
+    private void OnExitToMenu()
+    {
+        simplePrompter.DisplayPrompter("EXIT", "Wanna quit to level selection?", GoToMainMenu, "Sure", DoNothing, "Nope");
+    }
+
+
     private void RestartLevel()
     {
         DataBase.DB?.ReloadLevel();
         //int loadedScenes = SceneManager.sceneCount;
         //SceneManager.GetAllScenes();
         //SceneManager.
+    }
+
+
+    private void GoToMainMenu()
+    {
+        DataBase.DB.LoadMainMenu();
+    }
+
+
+    private void DoNothing()
+    {
+
     }
 
 
