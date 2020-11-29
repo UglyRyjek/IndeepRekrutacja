@@ -19,12 +19,21 @@ public class LevelHUD : MonoBehaviour
 
     [SerializeField] private UISimplePrompter simplePrompter;
 
+    [SerializeField] private Image levelProgresBackground;
+    [SerializeField] private Image levelProgresFill;
 
 
+
+    private LevelManager levelManager;
 
 
     private void Start()
     {
+        levelManager = FindObjectOfType<LevelManager>();
+        levelProgresBackground.gameObject.SetActive(levelManager!=null);
+        levelProgresFill.gameObject.SetActive(levelManager!=null);
+        levelProgresFill.fillAmount = 0f;
+
         showUpperSupbanel.onClick.AddListener(ShowUpperPanel);
         hideUpperSubpanel.onClick.AddListener(HideUpperPanel);
         subpanel_volume_mute.onClick.AddListener(OnSupbanelVolume);
@@ -38,7 +47,7 @@ public class LevelHUD : MonoBehaviour
 
     private void Update()
     {
-
+        HandleLevelProgressBar();
     }
 
 
@@ -83,8 +92,17 @@ public class LevelHUD : MonoBehaviour
     {
         bool state = subpanel_volume_unmute.gameObject.activeInHierarchy;
 
-        AudioListener.volume = state ? 0f : 1f; 
+        AudioListener.volume = state ? 0f : 1f;
         subpanel_volume_mute.gameObject.SetActive(state);
         subpanel_volume_unmute.gameObject.SetActive(!state);
+    }
+
+
+    private void HandleLevelProgressBar()
+    {
+        if (levelManager)
+        {
+            levelProgresFill.fillAmount = Mathf.MoveTowards(levelProgresFill.fillAmount, levelManager.GetLevelProgressionNormalized(), 3f * Time.deltaTime);
+        }
     }
 }

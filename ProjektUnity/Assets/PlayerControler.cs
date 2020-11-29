@@ -40,6 +40,12 @@ public class PlayerControler : MonoBehaviour
 
     private void Update()
     {
+        if(playerState == PlayerState.InputBlocked)
+        {
+            HideGunAiming();
+            return;
+        }
+
         if (shootCor == null)
         {
             input.UpdateMe(playerPivot, Shoot);
@@ -54,6 +60,11 @@ public class PlayerControler : MonoBehaviour
         }
     }
 
+
+    public void BlockPlayerInput()
+    {
+        playerState = PlayerState.InputBlocked;
+    }
 
 
     private void Shoot()
@@ -208,6 +219,7 @@ public enum PlayerState
     None = 0,
     Aiming = 1,
     ShootInProgress = 2,
+    InputBlocked = 3,
 }
 
 

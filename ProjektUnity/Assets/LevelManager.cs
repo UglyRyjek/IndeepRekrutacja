@@ -6,10 +6,15 @@ using System;
 
 public class LevelManager : MonoBehaviour
 {
-   
+    [SerializeField] private PlayerControler player;
+
     private List<IObjective> objectives = new List<IObjective>();
    
     public bool debug_showIsLevelCompleted;
+    private float normalsiedLevelProgres;
+
+
+    private Coroutine levelCompletedCor;
 
 
     private void Start()
@@ -22,6 +27,7 @@ public class LevelManager : MonoBehaviour
     private void Update()
     {
         debug_showIsLevelCompleted = IsLevelCompleted();
+        CalculateLevelProgress();
     }
 
 
@@ -36,6 +42,41 @@ public class LevelManager : MonoBehaviour
                 objectives.Add(io);
             }
         }
+    }
+
+
+    private void LevelCompleted()
+    {
+        if(levelCompletedCor == null)
+        {
+            levelCompletedCor = StartCoroutine(EndLevelProcces(3f));
+        }
+
+        player.BlockPlayerInput();
+    }
+
+
+    private IEnumerator EndLevelProcces(float delayTime)
+    {
+        float timer = 0f;
+
+
+        while(timer < delayTime)
+        {
+            timer += Time.deltaTime;
+
+
+            yield return null;
+        }
+
+
+        yield return null;
+    }
+
+
+    public float GetLevelProgressionNormalized()
+    {
+        return normalsiedLevelProgres;
     }
 
 
@@ -60,7 +101,30 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    
+
+    private void CalculateLevelProgress()
+    {
+        if(IsLevelCompleted())
+        {
+            normalsiedLevelProgres = 1f;
+        }
+
+        float part = 1f / objectives.Count;
+
+        normalsiedLevelProgres = 0f;
+
+        foreach (IObjective objective in objectives)
+        {
+            if(objective.IsCompleted())
+            {
+                normalsiedLevelProgres += part;
+            }
+        }
+
+        normalsiedLevelProgres = Mathf.Clamp(normalsiedLevelProgres, 0f, 1f);
+    }
+
+
     public bool IsLevelCompleted()
     {
         return objectives.TrueForAll(x => x.IsCompleted());
