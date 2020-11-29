@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 025ecbc4dfc919b40801d342c8a9e65d, type: 3}
+  m_Name: Level_6
+  m_EditorClassIdentifier: 
+  levelInfo:
+    name: Grande finale
+    levelID:
+      levelID: 777
+    levelRecord:
+      completed: 0
+      shootsUsed: 4
+      dateOfCompletion: Never
+    levelIcon: {fileID: 21300000, guid: 8db10a963da69a741bd7994ae7471210, type: 3}
+    scene:
+      m_SceneAsset: {fileID: 102900000, guid: ae98637f251fd1d4aa2d6eb8460779f8, type: 3}
+      m_SceneName: Round_6
+    music: {fileID: 8300000, guid: 741080415f1ef6a4a87d83b211459064, type: 3}
+    levelIntro:
+      skip: 0
+      title: Helo again
+      content: 'Ok, so... this is it. Just enough levels made in about an hour to
+        prove that lets call it "level designe pipeline" is fine.
+
+        Besides
+        I''m out of songs :) '
+      songTitle: 'Song :  Caravan Palace  - Lone Digger'
+      okButtonText: Fin
+      image: {fileID: 21300000, guid: a466c2fb655df3046bf6fbff62d5ac0f, type: 3}
