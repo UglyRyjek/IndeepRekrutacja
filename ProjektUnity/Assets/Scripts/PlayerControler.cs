@@ -9,13 +9,9 @@ public class PlayerControler : MonoBehaviour
     public PlayerState playerState;
 
     [SerializeField] private InputBase input;
-
     [SerializeField] private Transform playerPivot;
-
     [SerializeField] private Transform gunPoint;
-
     [SerializeField] private LineRenderer lineRenderer;
-
     [SerializeField] private float maxRaycastDistance = 10f;
     [SerializeField] private LayerMask raycastLayerMask;
     [SerializeField] private float bounceAngle = -90f;
@@ -67,10 +63,12 @@ public class PlayerControler : MonoBehaviour
         playerState = PlayerState.InputBlocked;
     }
 
+
     public void UnblockPlayerInput()
     {
         playerState = PlayerState.None;
     }
+
 
     private void Shoot()
     {
@@ -174,9 +172,6 @@ public class PlayerControler : MonoBehaviour
 
         List<Wall> wals = new List<Wall>();
         Wall lastWall = null;
-        hittedNow.Clear();
-        ss = "";
-        hsw = "";
 
         while (trackedPoint.continueTracking && reflectionCount <= maxReflections)
         {
@@ -198,16 +193,6 @@ public class PlayerControler : MonoBehaviour
 
             foreach (WallHit wh in walssy)
             {
-                //if (wals.Contains(w))
-                //{
-                //    continue;
-                //}
-
-                if (wh.wall is WallDancer)
-                {
-                    ss += "W";
-                }
-
                 if (wh.wall == lastWall)
                 {
                     continue;
@@ -216,8 +201,6 @@ public class PlayerControler : MonoBehaviour
 
                 pointOfhit = wh.hit.point;
                 aimPoint = wh.hit.point;
-
-                //TrajectoryPoint nextPoint = w.GetTrajectoryPoint(hit, aimDirection);
 
                 TrajectoryPoint nextPoint = wh.wall.GetTrajectoryPoint(wh.hit, trackedPoint.direction);
 
@@ -230,67 +213,19 @@ public class PlayerControler : MonoBehaviour
                 break;
             }
 
-
-
-            //foreach (RaycastHit hit in hits)
-            //{
-            //    Wall w = hit.transform.GetComponent<Wall>();
-            //    if (w != null)
-            //    {
-            //        if(wals.Contains(w))
-            //        {
-            //            continue;
-            //        }
-
-            //        wals.Add(w);
-            //        if(w is WallDancer)
-            //        {
-            //            ss += "W";
-            //        }
-
-            //        //if (w == lastWall)
-            //        //{
-            //        //    continue;
-            //        //}
-            //        //lastWall = w;
-
-            //        pointOfhit = hit.point;
-            //        aimPoint = hit.point;
-
-            //        //TrajectoryPoint nextPoint = w.GetTrajectoryPoint(hit, aimDirection);
-
-            //        TrajectoryPoint nextPoint = w.GetTrajectoryPoint(hit, trackedPoint.direction);
-
-            //        trajectory.Add(nextPoint);
-            //        trackedPoint = nextPoint;
-            //        hitSomeWall = true;
-
-            //        break;
-            //    }
-            //}
-
             if (hitSomeWall == false)
             {
-                hsw += "Hiw";
                 TrajectoryPoint lastPoint = new TrajectoryPoint(pointOfhit, trackedPoint.direction, null, false);
                 trajectory.Add(lastPoint);
                 trackedPoint = lastPoint;
             }
         }
 
-
-        foreach (var item in trajectory)
-        {
-            hittedNow.Add(item.wall);
-        }
-
         return trajectory;
     }
-
-    public string hsw;
-    public string ss;
-    public List<Wall> hittedNow = new List<Wall>();
 }
+
+
 
 public class WallHit
 {
@@ -304,6 +239,8 @@ public class WallHit
     public RaycastHit hit;
 }
 
+
+
 [System.Serializable]
 public enum PlayerState
 {
@@ -312,6 +249,7 @@ public enum PlayerState
     ShootInProgress = 2,
     InputBlocked = 3,
 }
+
 
 
 [System.Serializable]

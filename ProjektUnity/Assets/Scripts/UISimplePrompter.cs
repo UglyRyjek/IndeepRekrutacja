@@ -11,9 +11,10 @@ public class UISimplePrompter : MonoBehaviour
     [SerializeField] private Text title;
     [SerializeField] private Text content;
     [SerializeField] private Button buttonLeft;
-    private Text buttonLeftText;
     [SerializeField] private Button buttonRight;
+
     private Text buttonRightText;
+    private Text buttonLeftText;
 
 
 
@@ -94,7 +95,6 @@ public class UISimplePrompter : MonoBehaviour
             buttonLeft.gameObject.SetActive(false);
         }
     }
-
 
 
     public void HidePrompter()
